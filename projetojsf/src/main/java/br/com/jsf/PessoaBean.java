@@ -225,6 +225,13 @@ public class PessoaBean  {
 		
 	}
 	
+	public void editar() {
+		if(pessoa.getCidades() != null) {
+			Estados estado = pessoa.getCidades().getEstados();
+			pessoa.setEstados(estado); 
+		}
+	}
+	
 	
 	public void setCidades(List<SelectItem> cidades) {
 		this.cidades = cidades;
