@@ -1,5 +1,7 @@
  package br.com.jsf;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,8 +22,10 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
+import javax.xml.bind.DatatypeConverter;
 
 import com.google.gson.Gson;
 
@@ -85,7 +89,38 @@ public class PessoaBean  {
 	
 	
 
-	public String salvar() {
+	public String salvar() throws IOException {
+		
+		//processa a imagem
+		byte[] imagemByte = getByte(arquivoFoto.getInputStream());
+		pessoa.setFotoIconBase64Original(imagemByte);
+		
+		//tranforma e'm BufferedImage
+		BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imagemByte));
+		
+		//Pega o tipo da imagem
+		int type = bufferedImage.getType() == 0? BufferedImage.TYPE_4BYTE_ABGR : bufferedImage.getType();
+		
+		int largura = 200;
+		int altura = 200;
+		
+		//Criar a miniatura
+		BufferedImage resizeImage = new BufferedImage(altura, altura, type);
+		Graphics2D g = resizeImage.createGraphics();
+		g.drawImage(bufferedImage, 0, 0, largura, altura, null);
+		g.dispose();
+		
+		//escrever novamente a img em tamanho menor
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		String extensao = arquivoFoto.getContentType().split("\\/")[1];
+		ImageIO.write(resizeImage, extensao, baos);
+		
+		String miniImagem = "data:" +arquivoFoto.getContentType() + ";base64, " +
+		DatatypeConverter.printBase64Binary(baos.toByteArray());
+		
+		//processar a imagem
+		pessoa.setFotoIconBase64(miniImagem);
+		pessoa.setExtensao(extensao);
 		
 		pessoa = daoGeneric.merge(pessoa);
 		carregarPessoas();
