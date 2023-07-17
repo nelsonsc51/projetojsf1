@@ -43,6 +43,7 @@
 			<f:validateLength minimum="4" maximum="10"/>
 			</h:inputText>
 			
+			
 			<h:outputLabel value="SobreNome" />
 			<h:inputText value="#{pessoaBean.pessoa.sobrenome}" pt:placeholder = "Informe o sobrenome do usuário" />
 
@@ -182,6 +183,14 @@
 			<h:column>
 				<f:facet name="header">Nome</f:facet>
 				<h:outputText value="#{pessoa.nome}" />
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Foto</f:facet>
+				<h:commandLink actionListener="#{pessoaBean.download}">
+				<h:graphicImage widh="60" height="60" value="#{pessoa.fotoIconBase64}" />
+				<f:param name="fileDownloadId" value="#{pessoa.id}"/>
+				</h:commandLink>
 			</h:column>
 			
 			<h:column>
