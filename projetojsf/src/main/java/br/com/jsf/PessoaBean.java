@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 
 import com.google.gson.Gson;
 
@@ -44,6 +45,8 @@ public class PessoaBean  {
 	private List<SelectItem> estados;
 	
 	private List<SelectItem> cidades;
+	
+	private Part arquivoFoto;
 	
 	
 	public Pessoa getPessoa() {
@@ -78,10 +81,9 @@ public class PessoaBean  {
 
 	
 	
-	
-	
 
 	public String salvar() {
+		
 		pessoa = daoGeneric.merge(pessoa);
 		carregarPessoas();
 		mostrarmsg("cadastrado com sucesso");
@@ -255,7 +257,13 @@ public class PessoaBean  {
 	}
 	
 	
-
+	public void setArquivoFoto(Part arquivoFoto) {
+		this.arquivoFoto = arquivoFoto;
+	}
+	
+	public Part getArquivoFoto() {
+		return arquivoFoto;
+	}
 	
 	
 }
