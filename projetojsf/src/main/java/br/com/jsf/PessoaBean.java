@@ -266,7 +266,12 @@ public class PessoaBean  {
 	// o event dispara um source com submitedValue onde possui o código do estado aramazenado nele
 	public void carregarCidades(AjaxBehaviorEvent event) {
 		
-		System.out.println(event.getComponent().getAttributes().get("submittedValue"));
+		String codigoEstado = (String) event.getComponent().
+				getAttributes().get("submittedValue");
+		
+		if(codigoEstado != null) {
+			System.out.println(codigoEstado);
+		}
 		
 		
 		//Para conseguir pegar o objeto inteiro que foi selecionado no comboBox

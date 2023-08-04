@@ -119,7 +119,7 @@
 			
 				<h:selectOneMenu value="#{pessoaBean.pessoa.estados}" immediate="true" id="comboEstados"
 					 >
-					<f:selectItem itemLabel="Selecione uma opção" itemValue="estados" noSelectionOption="true"/>
+					<f:selectItem itemLabel="Selecione uma opção" noSelectionOption="true"/>
 					<f:selectItems value="#{pessoaBean.estados}"/>
 					<f:ajax event="change" execute="@this"  render="comboCidade"
 					listener="#{pessoaBean.carregarCidades}"/>
