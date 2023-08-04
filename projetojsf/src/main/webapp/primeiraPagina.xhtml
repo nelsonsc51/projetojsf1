@@ -114,20 +114,21 @@
 			
 			<h:outputLabel value="UF " />
 			<h:inputText value="#{pessoaBean.pessoa.uf}" id="uf"/>
-		
+			
 			<h:outputLabel value="Estados:"/>
+			
 				<h:selectOneMenu value="#{pessoaBean.pessoa.estados}" immediate="true" id="comboEstados"
-					converter="estadoConverter">
-					<f:selectItem itemLabel="--[Selecione]--" noSelectionOption="true"/>
-					<f:selectItems value="#{pessoaBean.estados}"  />
+					 >
+					<f:selectItem itemLabel="Selecione uma opção" itemValue="estados" noSelectionOption="true"/>
+					<f:selectItems value="#{pessoaBean.estados}"/>
 					<f:ajax event="change" execute="@this"  render="comboCidade"
 					listener="#{pessoaBean.carregarCidades}"/>
 				</h:selectOneMenu>
 				
 			<h:outputLabel value="Cidades:"/>
 				<h:selectOneMenu value="#{pessoaBean.pessoa.cidades}" id="comboCidade"
-					converter="cidadeConverter">
-					<f:selectItem itemLabel="--[Selecione]--" noSelectionOption="true"/>
+					>
+					<f:selectItem itemLabel="Selecione uma opção" itemValue="cidades" noSelectionOption="true" />
 					<f:selectItems value="#{pessoaBean.cidades}"  />
 				</h:selectOneMenu>
 			
@@ -228,3 +229,10 @@
 </h:body>
 
 </html>
+
+
+<!-- CAMPO ESTADOS - Aponta para o objeto estado criado no ManageBean, foi colocado dentro da entidade Pessoa
+				para poder ser recuperado depois -->
+<!-- CAMPO ESTADOS - Ajax tem que disparar um evento para o método carrega cidades no ManageBean que no caso é 
+a PessoaBean, o immediate="true" ele deixa enviar valores para o manageBean, que são as validações em ajax e passar 
+por baixo dos panos sem as validações do ManageBean   -->				

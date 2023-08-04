@@ -266,12 +266,15 @@ public class PessoaBean  {
 	
 	public void carregarCidades(AjaxBehaviorEvent event) {
 		
+		System.out.println("chamou evento");
+		
+		
 		//Para conseguir pegar o objeto inteiro que foi selecionado no comboBox
 		//todo componente JSF tem uma classe que representa ele	- HtmlSelectOneMenu
-		Estados estado = (Estados) ((HtmlSelectOneMenu) event.getSource()).getValue();
+		//Estados estado = (Estados) ((HtmlSelectOneMenu) event.getSource()).getValue();
 		
 		// Dessa forma já é possível obter o objeto do estados no JSF 
-		
+		/*
 			if(estado != null) {
 				pessoa.setEstados(estado);
 				
@@ -288,7 +291,7 @@ public class PessoaBean  {
 				setCidades(selectItemsCidade);
 				
 			}
-			
+			*/
 		
 	}
 	
