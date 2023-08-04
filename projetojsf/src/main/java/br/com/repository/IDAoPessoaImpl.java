@@ -15,10 +15,7 @@ import br.com.jpautil.JPAUtil;
 
 @Named
 public class IDAoPessoaImpl implements IDaoPessoa {
-
 	
-	
-		
 	@Override
 	public Pessoa consultarUsuario(String login, String senha) {
 	
@@ -41,15 +38,16 @@ public class IDAoPessoaImpl implements IDaoPessoa {
 	public List<SelectItem> listaEstados(){
 		
 		List<SelectItem> seletcItems = new ArrayList<SelectItem>();
-		
+		//consulta no BD
 		EntityManager entityManager = JPAUtil.getEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
 		
 		List<Estados> estados = entityManager.createQuery("from Estados" ).getResultList();
-					
+			// transformando a lista estados, compreensível para o nosso combox JSF		
 		for(Estados estado : estados) {
-			seletcItems.add(new SelectItem(estado, estado.getNome()));
+			// mostra o objeto inteiro e o valor do objeto(será mostrado para o usuário) dentro de SelectItem
+			seletcItems.add(new SelectItem(estado.getId(), estado.getNome()));
 		}
 		
 		return seletcItems;

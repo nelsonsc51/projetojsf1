@@ -25,6 +25,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.xml.bind.DatatypeConverter;
 
@@ -57,6 +58,7 @@ public class PessoaBean  {
 	private Part arquivoFoto;
 	
 	
+	//GETTERS AND SETTERS
 	public Pessoa getPessoa() {
 		return pessoa;
 	}
@@ -86,10 +88,30 @@ public class PessoaBean  {
 		estados = iDaoPessoa.listaEstados();
 		return estados;
 	}
+	
+	public void setEstados(List<SelectItem> estados) {
+		this.estados = estados;
+	}
 
+	public void setCidades(List<SelectItem> cidades) {
+		this.cidades = cidades;
+	}
+	
+	public List<SelectItem> getCidades() {
+		return cidades;
+	}
 	
 	
+	public void setArquivoFoto(Part arquivoFoto) {
+		this.arquivoFoto = arquivoFoto;
+	}
+	
+	public Part getArquivoFoto() {
+		return arquivoFoto;
+	}
+	
 
+	//MÉTODOS
 	public String salvar() throws IOException {
 		
 		//processa a imagem
@@ -245,8 +267,10 @@ public class PessoaBean  {
 	public void carregarCidades(AjaxBehaviorEvent event) {
 		
 		//Para conseguir pegar o objeto inteiro que foi selecionado no comboBox
+		//todo componente JSF tem uma classe que representa ele	- HtmlSelectOneMenu
 		Estados estado = (Estados) ((HtmlSelectOneMenu) event.getSource()).getValue();
 		
+		// Dessa forma já é possível obter o objeto do estados no JSF 
 		
 			if(estado != null) {
 				pessoa.setEstados(estado);
@@ -264,6 +288,7 @@ public class PessoaBean  {
 				setCidades(selectItemsCidade);
 				
 			}
+			
 		
 	}
 	
@@ -287,22 +312,7 @@ public class PessoaBean  {
 	}
 	
 	
-	public void setCidades(List<SelectItem> cidades) {
-		this.cidades = cidades;
-	}
 	
-	public List<SelectItem> getCidades() {
-		return cidades;
-	}
-	
-	
-	public void setArquivoFoto(Part arquivoFoto) {
-		this.arquivoFoto = arquivoFoto;
-	}
-	
-	public Part getArquivoFoto() {
-		return arquivoFoto;
-	}
 	
 	
 	//metodo que converte um inputStream em array de bytes
@@ -329,11 +339,28 @@ public class PessoaBean  {
 		return buf;
 	}
 	
-	public void download() {
+	public void download() throws IOException {
 		Map<String, String> params = FacesContext.getCurrentInstance()
 				.getExternalContext().getRequestParameterMap();
 		String fileDownlodId = params.get("fileDownloadId");
-		System.out.println(fileDownlodId);
+		
+		Pessoa pessoa = daoGeneric.consultar(Pessoa.class, fileDownlodId);
+		
+		
+		System.out.println(pessoa);
+		
+		
+		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance()
+				.getExternalContext().getResponse();
+		
+		response.addHeader("Content-Disposition", "attachment; filename=download."+ pessoa.getExtensao());
+		response.setContentType("application/octet-stream");
+		response.setContentLength(pessoa.getFotoIconBase64Original().length);
+		response.getOutputStream().write(pessoa.getFotoIconBase64Original());
+		response.getOutputStream().flush();
+		FacesContext.getCurrentInstance().responseComplete();
+		
+	
 	}
 	
 }

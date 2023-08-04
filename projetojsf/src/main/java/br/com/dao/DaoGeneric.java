@@ -2,6 +2,7 @@ package br.com.dao;
 
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
@@ -9,9 +10,9 @@ import br.com.jpautil.JPAUtil;
 
 public class DaoGeneric<E> {
 
-	
+	EntityManager entityManager = JPAUtil.getEntityManager();
 	public void salvar(E entidade) {
-		EntityManager entityManager = JPAUtil.getEntityManager();
+		 entityManager = JPAUtil.getEntityManager();
 		EntityTransaction entityTransaction  =  entityManager.getTransaction();
 		entityTransaction.begin();
 		
@@ -60,6 +61,16 @@ public class DaoGeneric<E> {
 		entityManager.close();
 		
 		return retorno;
+	}
+	
+	public E consultar(Class<E> entidade, String codigo) {
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		
+		E objeto = entityManager.find(entidade, Long.parseLong(codigo));
+		entityTransaction.commit();
+		
+		return objeto; 
 	}
 	
 	

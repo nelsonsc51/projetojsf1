@@ -64,7 +64,7 @@ public class Pessoa implements Serializable {
 	
 	private String uf;
 	
-	@Transient //Não fica persistente ou não grava no banco, só fica em memória
+	@Transient //Não fica persistente ou não grava no banco, só fica em memória, não cria uma coluna no BD
 	private Estados estados;
 	
 	@ManyToOne

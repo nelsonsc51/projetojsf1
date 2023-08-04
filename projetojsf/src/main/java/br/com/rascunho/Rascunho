@@ -1,0 +1,126 @@
+JSF
+converter="estadoConverter"
+converter="cidadeConverter"
+<h:selectOneMenu value="#{pessoaBean.pessoa.estados}" immediate="true" 
+
+CLASSE ESTADO CONVERTER
+
+package br.com.converter;
+
+import java.io.Serializable;
+
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
+import br.com.entidades.Estados;
+import br.com.jpautil.JPAUtil;
+
+@FacesConverter(forClass = Estados.class, value = "estadoConverter")
+public class EstadoConverter implements Converter, Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	//Retorna objeto inteiro
+	//Faces Context, recebe a parte de contexto do JSF
+	//UIComponent - componentes do JSF que estão sendo usado - exemplo: h:selectOneMenu
+	//codigoEstado - retorna o objeto inteiro
+	@Override
+	public Object getAsObject(FacesContext context, UIComponent component, 
+			String codigoEstado) {
+
+		EntityManager entityManager = JPAUtil.getEntityManager();
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+
+		Estados estados = entityManager.
+				find(Estados.class, Long.parseLong(codigoEstado));
+
+		return estados;
+	}
+
+	//estado  -Retorna códogo em String
+	@Override
+	public String getAsString(FacesContext context, UIComponent component, 
+			Object estado) {
+		
+		if(estado == null) {
+			
+			return null;
+		}
+		// se o estado for uma instância do objeto Estado
+		if(estado instanceof Estados) {
+			return ((Estados) estado).getId().toString();
+		}
+		else {
+			return estado.toString();
+		}
+		
+		
+	}
+
+}
+
+
+CLASSE CIDADE CONVERTER
+  package br.com.converter;
+
+import java.io.Serializable;
+
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
+import br.com.entidades.Cidades;
+import br.com.entidades.Estados;
+import br.com.jpautil.JPAUtil;
+
+@FacesConverter(forClass = Cidades.class, value = "cidadeConverter")
+public class CidadesConverter implements Converter, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	//Retorna obljeto inteiro
+	@Override
+	public Object getAsObject(FacesContext context, UIComponent component, 
+			String codigoCidade) {
+		EntityManager entityManager = JPAUtil.getEntityManager();
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		
+		Cidades cidades = (Cidades) entityManager.
+				find(Cidades.class, Long.parseLong(codigoCidade));
+		
+		return cidades;
+	}
+
+	//Retorna String
+	@Override
+	public String getAsString(FacesContext context, UIComponent component, 
+			Object cidade) {
+		
+			if(cidade == null) {
+			
+				return null;
+			}
+		
+			if(cidade instanceof Cidades) {
+				return ((Cidades) cidade).getId().toString();
+			}
+			else {
+				return cidade.toString();
+			}
+		
+		
+	}
+
+}
