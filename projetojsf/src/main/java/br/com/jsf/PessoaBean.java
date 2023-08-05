@@ -270,15 +270,35 @@ public class PessoaBean  {
 				getAttributes().get("submittedValue");
 		
 		if(codigoEstado != null) {
-			System.out.println(codigoEstado);
+			Estados estado = JPAUtil.getEntityManager()
+					.find(Estados.class, Long.parseLong(codigoEstado));
+			
+			//Para conseguir pegar o objeto inteiro que foi selecionado no comboBox
+			//todo componente JSF tem uma classe que representa ele	- HtmlSelectOneMenu
+			//Estados estado = (Estados) ((HtmlSelectOneMenu) event.getSource()).getValue();
+			
+			// Dessa forma já é possível obter o objeto do estados no JSF 
+		 	if(estado != null) {
+				pessoa.setEstados(estado);
+				
+				List<Cidades> cidades = JPAUtil.getEntityManager()
+						.createQuery("from Cidades where estados.id = "
+						+ codigoEstado).getResultList();
+
+				List<SelectItem> selectItemsCidade = new ArrayList<SelectItem>();
+				
+				for (Cidades cidade : cidades) {
+					selectItemsCidade.add(new  SelectItem(cidade, cidade.getNome()));
+				}
+				setCidades(selectItemsCidade);
+				
+			}
+		
+		
 		}
 		
 		
-		//Para conseguir pegar o objeto inteiro que foi selecionado no comboBox
-		//todo componente JSF tem uma classe que representa ele	- HtmlSelectOneMenu
-		//Estados estado = (Estados) ((HtmlSelectOneMenu) event.getSource()).getValue();
 		
-		// Dessa forma já é possível obter o objeto do estados no JSF 
 		/*
 			if(estado != null) {
 				pessoa.setEstados(estado);
