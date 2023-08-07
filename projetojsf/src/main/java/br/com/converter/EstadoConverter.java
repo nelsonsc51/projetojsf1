@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
@@ -12,8 +13,8 @@ import br.com.entidades.Estados;
 import br.com.jpautil.JPAUtil;
 
 
-
-//codigoEstado - retorna o objeto inteiro
+//Para aceitar a classe como converter é necessário a anotação abaixo:
+@FacesConverter(forClass = Estados.class)
 public class EstadoConverter implements Converter, Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -41,18 +42,7 @@ public class EstadoConverter implements Converter, Serializable {
 	public String getAsString(FacesContext context, UIComponent component, 
 			Object estado) {
 		
-		if(estado == null) {
-			
-			return null;
-		}
-		// se o estado for uma instância do objeto Estado
-		if(estado instanceof Estados) {
 			return ((Estados) estado).getId().toString();
-			}
-			else {
-			return estado.toString();
-			}
-				
 	}
 	
 	
