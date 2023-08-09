@@ -37,8 +37,20 @@ public class CidadesConverter implements Converter, Serializable {
 		public String getAsString(FacesContext context, UIComponent component, 
 				Object cidade) {
 			
+			if(cidade == null) {
 				
-					return ((Cidades) cidade).getId().toString();
+				return null;
+			}
+		
+			if(cidade instanceof Cidades) {
+				return ((Cidades) cidade).getId().toString();
+			}
+			else {
+				return cidade.toString();
+			}
+			
+			//Código antigo	
+			//		return ((Cidades) cidade).getId().toString();
 				
 			
 			
