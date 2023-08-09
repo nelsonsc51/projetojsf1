@@ -42,7 +42,20 @@ public class EstadoConverter implements Converter, Serializable {
 	public String getAsString(FacesContext context, UIComponent component, 
 			Object estado) {
 		
-			return ((Estados) estado).getId().toString();
+		if(estado == null) {
+			
+			return null;
+		}
+		
+		// se o estado for uma instância do objeto Estado
+				if(estado instanceof Estados) {
+					return ((Estados) estado).getId().toString();
+				}
+				else {
+					return estado.toString();
+				}
+		
+		//	return ((Estados) estado).getId().toString();
 	}
 	
 	
