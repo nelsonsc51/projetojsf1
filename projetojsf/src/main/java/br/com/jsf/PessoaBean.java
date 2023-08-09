@@ -266,16 +266,22 @@ public class PessoaBean  {
 	// o event dispara um source com submitedValue onde possui o código do estado aramazenado nele
 	public void carregarCidades(AjaxBehaviorEvent event) {
 		
-		String codigoEstado = (String) event.getComponent().
-				getAttributes().get("submittedValue");
+		//Para pegar o Objeto Inteiro do estado na tela JSF
+		//Para conseguir pegar o objeto inteiro que foi selecionado no comboBox
+		//todo componente JSF tem uma classe que representa ele	- HtmlSelectOneMenu
+		Estados estado = (Estados) ((HtmlSelectOneMenu) event.getSource()).getValue();
 		
-		if(codigoEstado != null) {
-			Estados estado = JPAUtil.getEntityManager()
-					.find(Estados.class, Long.parseLong(codigoEstado));
+		//CóDIGO recuperando pelo o id do Estado
+	//	String codigoEstado = (String) event.getComponent().
+		//		getAttributes().get("submittedValue");
+		
+		//Agora não precia mais dessa condição, pois o estado não é mais pelo id
+	//	if(codigoEstado != null) {
+
+			//Alterando o estado para um objeto inteiro, realizando a alteração acima
+			//não é preciso fazer a consulta no BD pelo JPAUtil
+			//Estados estado = JPAUtil.getEntityManager().find(Estados.class, Long.parseLong(codigoEstado));
 			
-			//Para conseguir pegar o objeto inteiro que foi selecionado no comboBox
-			//todo componente JSF tem uma classe que representa ele	- HtmlSelectOneMenu
-			//Estados estado = (Estados) ((HtmlSelectOneMenu) event.getSource()).getValue();
 			
 			// Dessa forma já é possível obter o objeto do estados no JSF 
 		 	if(estado != null) {
@@ -283,7 +289,9 @@ public class PessoaBean  {
 				
 				List<Cidades> cidades = JPAUtil.getEntityManager()
 						.createQuery("from Cidades where estados.id = "
-						+ codigoEstado).getResultList();
+						+ estado.getId()).getResultList();
+						//Código Antigo
+						//+ codigoEstado).getResultList();
 
 				List<SelectItem> selectItemsCidade = new ArrayList<SelectItem>();
 				
@@ -295,7 +303,7 @@ public class PessoaBean  {
 			}
 		
 		
-		}
+//		}
 		
 		
 		
