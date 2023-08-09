@@ -115,13 +115,14 @@ public class PessoaBean  {
 	public String salvar() throws IOException {
 		
 		//processa a imagem
-		byte[] imagemByte = getByte(arquivoFoto.getInputStream());
-		pessoa.setFotoIconBase64Original(imagemByte);
+		//byte[] imagemByte = getByte(arquivoFoto.getInputStream());
+		//pessoa.setFotoIconBase64Original(imagemByte);
 		
 		//tranforma e'm BufferedImage
-		BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imagemByte));
+		//BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imagemByte));
 		
 		//Pega o tipo da imagem
+		/*
 		int type = bufferedImage.getType() == 0? BufferedImage.TYPE_4BYTE_ABGR : bufferedImage.getType();
 		
 		int largura = 200;
@@ -144,7 +145,7 @@ public class PessoaBean  {
 		//processar a imagem
 		pessoa.setFotoIconBase64(miniImagem);
 		pessoa.setExtensao(extensao);
-		
+		*/
 		pessoa = daoGeneric.merge(pessoa);
 		carregarPessoas();
 		mostrarmsg("cadastrado com sucesso");
