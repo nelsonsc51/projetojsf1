@@ -45,10 +45,18 @@ public class IDAoPessoaImpl implements IDaoPessoa {
 		
 		List<Estados> estados = entityManager.createQuery("from Estados" ).getResultList();
 			// transformando a lista estados, compreensível para o nosso combox JSF		
+		
 		for(Estados estado : estados) {
 			// mostra o objeto inteiro e o valor do objeto(será mostrado para o usuário) dentro de SelectItem
-			seletcItems.add(new SelectItem(estado.getId(), estado.getNome()));
+			//Reitrado o id e enviando o objeto inteiro
+			seletcItems.add(new SelectItem(estado, estado.getNome()));
 		}
+				
+		//CÓDIGO ANTIGO
+		//for(Estados estado : estados) {
+			// mostra o objeto inteiro e o valor do objeto(será mostrado para o usuário) dentro de SelectItem
+			//seletcItems.add(new SelectItem(estado.getId(), estado.getNome()));
+		//}
 		
 		return seletcItems;
 		
