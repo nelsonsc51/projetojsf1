@@ -12,9 +12,9 @@ import javax.persistence.EntityTransaction;
 import br.com.entidades.Estados;
 import br.com.jpautil.JPAUtil;
 
-
+//value é como se fosse a referência para tela JSF
 //Para aceitar a classe como converter é necessário a anotação abaixo:
-@FacesConverter(forClass = Estados.class)
+@FacesConverter(forClass = Estados.class, value = "estadoConverter")
 public class EstadoConverter implements Converter, Serializable {
 	
 	private static final long serialVersionUID = 1L;
