@@ -13,7 +13,7 @@ import br.com.entidades.Cidades;
 import br.com.jpautil.JPAUtil;
 
 //Para aceitar a classe como converter é necessário a anotação abaixo:
-@FacesConverter(forClass = Cidades.class)
+@FacesConverter(forClass = Cidades.class, value="cidadeConverter")
 public class CidadesConverter implements Converter, Serializable {
 	
 	private static final long serialVersionUID = 1L;
