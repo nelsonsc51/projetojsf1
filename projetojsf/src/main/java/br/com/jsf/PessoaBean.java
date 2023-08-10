@@ -53,8 +53,11 @@ public class PessoaBean  {
 	
 	private List<SelectItem> estados;
 	
-	private List<SelectItem> cidades;
+	private List<SelectItem> cidades; 
 	
+	/*Essa classe Part java pega o arquivo selecionado pelo o usuário na tela
+	 * para fazer upload e cria temporáriamente do lado servidor, para ser obtido no sistema
+	 */
 	private Part arquivoFoto;
 	
 	
@@ -101,7 +104,7 @@ public class PessoaBean  {
 		return cidades;
 	}
 	
-	
+	// cria-se os getters and setters, para que o JSF setar e ser recuperado
 	public void setArquivoFoto(Part arquivoFoto) {
 		this.arquivoFoto = arquivoFoto;
 	}
@@ -113,6 +116,8 @@ public class PessoaBean  {
 
 	//MÉTODOS
 	public String salvar() throws IOException {
+		
+		System.out.println(arquivoFoto);
 		
 		//processa a imagem
 		//byte[] imagemByte = getByte(arquivoFoto.getInputStream());
