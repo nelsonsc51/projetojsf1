@@ -70,13 +70,13 @@ public class Pessoa implements Serializable {
 	@ManyToOne
 	private Cidades cidades;
 	
-	@Column(columnDefinition = "text") //Tipo text para arquivos base 64
+	@Column(columnDefinition = "text") //Tipo text para arquivos base 64 = tamanh gigante
 	private String fotoIconBase64;
 	
 	private String extensao; 
 	
-	@Lob
-	@Basic(fetch = FetchType.LAZY)
+	@Lob// gravar arquivos no BD
+	@Basic(fetch = FetchType.LAZY) // para carreagar só quando chamar a base64
 	private byte[] fotoIconBase64Original;
 		
 	@Temporal(TemporalType.DATE)
