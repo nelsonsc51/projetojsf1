@@ -117,10 +117,8 @@ public class PessoaBean  {
 	//MÉTODOS
 	public String salvar() throws IOException {
 		
-		System.out.println(arquivoFoto);
-		
 		//processa a imagem
-		//byte[] imagemByte = getByte(arquivoFoto.getInputStream());
+		byte[] imagemByte = getByte(arquivoFoto.getInputStream());
 		//pessoa.setFotoIconBase64Original(imagemByte);
 		
 		//tranforma e'm BufferedImage
@@ -357,25 +355,45 @@ public class PessoaBean  {
 	
 	
 	
-	//metodo que converte um inputStream em array de bytes
+	/*
+	 * método que recebe o inputStream(que é arquivo temporário do nosso servidor) 
+	 *  e converte para um array de bytes 
+	 * Isso é feito por que as classes manipuladas pelo java para manipular essa imagem
+	 * não aceitam diretamente um inputStream.
+	 * Por isso,  e só depois disso, pode ser usado no processo de manipulação da imagem
+	 * Pode ser uma entrada de mídia, foto,etc.. 	 
+	 */
 	private byte[] getByte (InputStream is) throws IOException {
+		/*
+		 * A idéia do inputStream é como se fosse um texto gigante, tem que que percorrer linha por linha
+		 * para depois ter o retorno em bytes
+		 * Esse método poder ser usado sempre que for converter um inputStream para bytes
+		 */
+		int  len; //variável de controle
+		int  size = 1024;//tamanho do arquivo
+		byte[]  buf = null;//fluxo ou buff de saída
 		
-		int len;
-		int size = 1024;
-		byte[] buf = null;
-		if (is instanceof ByteArrayInputStream) {
-			size = is.available();
-			buf = new byte[size];
-			len = is.read(buf, 0, size);
-		}else {
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			buf = new byte[size];
+		//pode acontecer que esse inputstream for só uma instância de um ByteArrayInputStream
+		if (is  instanceof ByteArrayInputStream) {
+			size =  is.available();
+			buf =  new byte[size];//fluxo recebe o novo array de tamanho
+			len =  is.read(buf, 0, size);//variável de controle recebe inputStream, 
+			//escrevendo no buffer do tamanho 0 até o tamanho disponível do arquivo
 			
+		//Como no caso fornecido, ele é um inputStream e automáticamente irá cair nessa linha
+			// ele é ByteArrayOutputStream 
+		}else  {
+			ByteArrayOutputStream  bos = new ByteArrayOutputStream();
+			buf =  new byte[size];
+			
+			//enquanto for diferente de -1, escreva na variável
 			while ((len = is.read(buf, 0, size )) != -1) {
-				bos.write(buf, 0, len);				
+				bos.write(buf, 0, len); //passado o buff de saída do tamanho de 0 até o tamanho da variável len				
 			}
-			
-			buf = bos.toByteArray();
+			/*
+			 * A saída será o retorno do buffer lido e transformado em bytes 
+			 */
+			buf = bos.toByteArray(); 
 		}
 		
 		return buf;
