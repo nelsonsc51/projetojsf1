@@ -403,14 +403,16 @@ public class PessoaBean  {
 		return buf;
 	}
 	
+	//Criando 
 	public void download() throws IOException {
 		Map<String, String> params = FacesContext.getCurrentInstance()
 				.getExternalContext().getRequestParameterMap();
 		String fileDownlodId = params.get("fileDownloadId");
 		
-		Pessoa pessoa = daoGeneric.consultar(Pessoa.class, fileDownlodId);
-		
-		
+		//Pessoa pessoa = daoGeneric.consultar(Pessoa.class, fileDownlodId);
+		// Imprimindo no console para teste e verificar se consegue retornar o id da pessoa
+		System.out.println(fileDownlodId);
+		/*
 		System.out.println(pessoa);
 		
 		
@@ -423,7 +425,7 @@ public class PessoaBean  {
 		response.getOutputStream().write(pessoa.getFotoIconBase64Original());
 		response.getOutputStream().flush();
 		FacesContext.getCurrentInstance().responseComplete();
-		
+		*/
 	
 	}
 	

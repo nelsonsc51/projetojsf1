@@ -124,3 +124,12 @@ public class CidadesConverter implements Converter, Serializable {
 	}
 
 }
+colocado a imagem dentro do comand link para download da foto dentro da primeirapagina.xhtml
+<h:commandLink actionListener="#{pessoaBean.download}">
+actionListener vai até o servidor e volta
+<h:commandLink  actionListener="#{pessoaBean.download}">
+				<h:graphicImage widh="60" height="60" value="#{pessoa.fotoIconBase64}" />
+				Tem que mandar um parametro para resgatar a foto
+				nome
+				<f:param name="fileDownloadId" value="#{pessoa.id}"/>
+				</h:commandLink>
