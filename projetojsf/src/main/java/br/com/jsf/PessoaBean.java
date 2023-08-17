@@ -118,37 +118,41 @@ public class PessoaBean  {
 	public String salvar() throws IOException {
 		
 		//processa a imagem
+		//Agora temos a nossa imagem em bytes
 		byte[] imagemByte = getByte(arquivoFoto.getInputStream());
-		//pessoa.setFotoIconBase64Original(imagemByte);
+		//pessoa.setFotoIconBase64Original(imagemByte);// Salva a imagem original
 		
-		//tranforma e'm BufferedImage
-		//BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imagemByte));
+		//tem que tranformar  em BufferedImage, para ter a nossa miniaturas
+		//A imagem ficará dentro bufferedImage
+		BufferedImage bufferedImage =  ImageIO.read(new ByteArrayInputStream(imagemByte));
 		
 		//Pega o tipo da imagem
-		/*
 		int type = bufferedImage.getType() == 0? BufferedImage.TYPE_4BYTE_ABGR : bufferedImage.getType();
 		
 		int largura = 200;
 		int altura = 200;
 		
-		//Criar a miniatura
-		BufferedImage resizeImage = new BufferedImage(altura, altura, type);
-		Graphics2D g = resizeImage.createGraphics();
-		g.drawImage(bufferedImage, 0, 0, largura, altura, null);
-		g.dispose();
+		//Criar a miniatura, através de um outro BufferedImage
+		BufferedImage  resizeImage = new BufferedImage(altura, altura, type);
+		Graphics2D g =  resizeImage.createGraphics();
+		//irá transformar a imagem, coloca-se 0 e null por que não tem um método para eles
+		g.drawImage( bufferedImage, 0, 0, largura, altura, null);
+		 g.dispose();
 		
 		//escrever novamente a img em tamanho menor
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		String extensao = arquivoFoto.getContentType().split("\\/")[1];
-		ImageIO.write(resizeImage, extensao, baos);
-		
-		String miniImagem = "data:" +arquivoFoto.getContentType() + ";base64, " +
+		ByteArrayOutputStream  baos = new ByteArrayOutputStream();
+		String extensao =  arquivoFoto.getContentType().split("\\/")[1];//retorna a image/png , 
+		//pego a primeira posição, para pegar outros tipos de extensões em foto
+		ImageIO.write( resizeImage, extensao, baos);
+		//Agora tem a mini imagem, que convertida de bytes para base64
+		String miniImagem =  "data:" +arquivoFoto.getContentType() + ";base64, " +
+		//convertendo para base64
 		DatatypeConverter.printBase64Binary(baos.toByteArray());
 		
-		//processar a imagem
+		//Com a base prosessada tenho a minha mini Imagem
 		pessoa.setFotoIconBase64(miniImagem);
 		pessoa.setExtensao(extensao);
-		*/
+	
 		pessoa = daoGeneric.merge(pessoa);
 		carregarPessoas();
 		mostrarmsg("cadastrado com sucesso");
