@@ -25,6 +25,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.xml.bind.DatatypeConverter;
 
@@ -408,28 +409,43 @@ public class PessoaBean  {
 	
 	//Criando 
 	public void download() throws IOException {
+		// o map é usado, por que dentro do jsf, tem FacesContext(que podemos saber tudo que 
+		//é requisição qu eveio do jsf)
+		// getRequestParameterMap() - tenho o mapeamento dos parametros que estão sendo enviados
 		Map<String, String> params = FacesContext.getCurrentInstance()
 				.getExternalContext().getRequestParameterMap();
+		// Aqui é pego o parâmetro do JSF - que no caso é o fileDownlodId: enviado na tela
+		// <f:param name="fileDownloadId" value="#{pessoa.id}"/
 		String fileDownlodId = params.get("fileDownloadId");
 		
-		//Pessoa pessoa = daoGeneric.consultar(Pessoa.class, fileDownlodId);
+		//Pegando o objeto  do método conultar 
+		Pessoa pessoa = daoGeneric.consultar(Pessoa.class, fileDownlodId);
+		// Imprimindo no console para teste e verificar se consegue retornar os dados com a foto
+		//System.out.println(pessoa);
+		
 		// Imprimindo no console para teste e verificar se consegue retornar o id da pessoa
-		System.out.println(fileDownlodId);
-		
-		/*
-		System.out.println(pessoa);
+		//System.out.println(fileDownlodId);
 		
 		
+		// Precisamos agora da resposta do nosso servidor
+		
+			
 		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance()
 				.getExternalContext().getResponse();
-		
+		//
+		//quando é arquivo tem que passar "attachment; filename=download  e concatena com a extensão
 		response.addHeader("Content-Disposition", "attachment; filename=download."+ pessoa.getExtensao());
+		// para arquivo e mídia  - application/octet-stream
 		response.setContentType("application/octet-stream");
 		response.setContentLength(pessoa.getFotoIconBase64Original().length);
+		//aqui é o fluxo de saída
 		response.getOutputStream().write(pessoa.getFotoIconBase64Original());
+		//agora o flush escreve a resposta do servidor
 		response.getOutputStream().flush();
+		// getCurrentInstance() - onde temos o contexto do jsf
+		//falar para o jsf que a resposta está completa .responseComplete();-
 		FacesContext.getCurrentInstance().responseComplete();
-		*/
+		
 	
 	}
 	
