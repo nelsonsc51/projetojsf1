@@ -63,10 +63,11 @@ public class DaoGeneric<E> {
 		return retorno;
 	}
 	
+	// agora é preciso consultar o objeto todo para realizar o dowload da imagem
 	public E consultar(Class<E> entidade, String codigo) {
-		EntityTransaction entityTransaction = entityManager.getTransaction();
+		EntityTransaction  entityTransaction = entityManager.getTransaction();
 		entityTransaction.begin();
-		
+		//Precisamos do código para recuperar o objeto pessoa, colocando a classe direta entidade
 		E objeto = entityManager.find(entidade, Long.parseLong(codigo));
 		entityTransaction.commit();
 		

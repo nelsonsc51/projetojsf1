@@ -25,7 +25,6 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.xml.bind.DatatypeConverter;
 
@@ -117,17 +116,20 @@ public class PessoaBean  {
 	//MÉTODOS
 	public String salvar() throws IOException {
 		
+		//System.out.println(arquivoFoto);
+		
+		if(arquivoFoto != null) {
 		//processa a imagem
 		//Agora temos a nossa imagem em bytes
 		byte[] imagemByte = getByte(arquivoFoto.getInputStream());
-		//pessoa.setFotoIconBase64Original(imagemByte);// Salva a imagem original
+		pessoa.setFotoIconBase64Original(imagemByte);// Salva a imagem original
 		
 		//tem que tranformar  em BufferedImage, para ter a nossa miniaturas
 		//A imagem ficará dentro bufferedImage
 		BufferedImage bufferedImage =  ImageIO.read(new ByteArrayInputStream(imagemByte));
 		
 		//Pega o tipo da imagem
-		int type = bufferedImage.getType() == 0? BufferedImage.TYPE_4BYTE_ABGR : bufferedImage.getType();
+		int type = bufferedImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : bufferedImage.getType();
 		
 		int largura = 200;
 		int altura = 200;
@@ -152,10 +154,11 @@ public class PessoaBean  {
 		//Com a base prosessada tenho a minha mini Imagem
 		pessoa.setFotoIconBase64(miniImagem);
 		pessoa.setExtensao(extensao);
-	
+		}	
 		pessoa = daoGeneric.merge(pessoa);
 		carregarPessoas();
 		mostrarmsg("cadastrado com sucesso");
+		
 		return "";
 	}
 	
@@ -412,6 +415,7 @@ public class PessoaBean  {
 		//Pessoa pessoa = daoGeneric.consultar(Pessoa.class, fileDownlodId);
 		// Imprimindo no console para teste e verificar se consegue retornar o id da pessoa
 		System.out.println(fileDownlodId);
+		
 		/*
 		System.out.println(pessoa);
 		
